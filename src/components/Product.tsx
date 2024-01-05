@@ -1,5 +1,6 @@
 import '../styles/Product.css'
 import { productProps } from '../utils/types'
+import { useStateValue } from '../StateProvider'
 
 const Product: React.FC<productProps> = ({
   id,
@@ -8,6 +9,24 @@ const Product: React.FC<productProps> = ({
   price,
   rating,
 }) => {
+  const [{ basket }, dispatch] = useStateValue()
+
+  console.log(basket)
+
+  const addToBasket = () => {
+    // dispatch the item into the data layer
+
+    dispatch({
+      type: 'ADD_TO_BASKET',
+      item: {
+        id,
+        title,
+        image,
+        price,
+        rating,
+      },
+    })
+  }
   return (
     <div id={id} className="product">
       <div className="product__info">
@@ -25,7 +44,7 @@ const Product: React.FC<productProps> = ({
         </div>
       </div>
       <img src={image}></img>
-      <button>Add To Cart</button>
+      <button onClick={addToBasket}>Add To Cart</button>
     </div>
   )
 }
