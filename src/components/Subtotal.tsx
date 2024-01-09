@@ -3,10 +3,10 @@ import '../styles/Subtotal.css'
 import CurrencyFormat from 'react-currency-format'
 
 function Subtotal() {
-  const [{ basket }, dispatch] = useStateValue()
+  const [{ basket }] = useStateValue()
 
   const calculateSubtotal = (basket: []) => {
-    return basket.reduce((total: number, item: any) => total + item.price, 0)
+    return basket?.reduce((total: number, item: any) => total + item.price, 0)
   }
 
   const subTotal = calculateSubtotal(basket)
