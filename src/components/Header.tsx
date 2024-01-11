@@ -3,9 +3,13 @@ import logo from '../assets/logo2.png'
 import SearchIcon from '@mui/icons-material/Search'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import { Link } from 'react-router-dom'
-import { useStateValue } from '../StateProvider'
+// import { useStateValue } from '../StateProvider'
+import { useRecoilValue } from 'recoil'
+import { basketDetails } from '../store/selectors/basket'
 function Header() {
-  const [{ basket }] = useStateValue()
+  //   const [{ basket }] = useStateValue()
+
+  const basket = useRecoilValue(basketDetails)
   return (
     <div className="header">
       <Link to={'/'}>

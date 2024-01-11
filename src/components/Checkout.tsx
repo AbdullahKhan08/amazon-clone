@@ -1,11 +1,15 @@
-import { useStateValue } from '../StateProvider'
+import { useRecoilValue } from 'recoil'
+// import { useStateValue } from '../StateProvider'
 import '../styles/Checkout.css'
 import { BasketItem } from '../utils/types'
 import CheckoutProduct from './CheckoutProduct'
 import Subtotal from './Subtotal'
+import { basketDetails } from '../store/selectors/basket'
 
 function Checkout() {
-  const [{ basket }] = useStateValue()
+  //   const [{ basket }] = useStateValue()
+
+  const basket = useRecoilValue(basketDetails)
   return (
     <div className="checkout">
       <div className="checkout__left">
@@ -16,9 +20,10 @@ function Checkout() {
 
         <div className="checkout__title">
           <h2>Your Shopping Basket</h2>
-          {basket.map((item: BasketItem) => {
+          {basket?.map((item: BasketItem, index: number) => {
             return (
               <CheckoutProduct
+                key={parseInt(item.id) - index}
                 id={item.id}
                 title={item.title}
                 image={item.image}

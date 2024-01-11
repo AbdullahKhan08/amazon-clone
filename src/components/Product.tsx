@@ -1,6 +1,9 @@
 import '../styles/Product.css'
 import { productProps } from '../utils/types'
-import { useStateValue } from '../StateProvider'
+// import { useStateValue } from '../StateProvider'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { basketState } from '../store/atoms/basket'
+import { basketDetails } from '../store/selectors/basket'
 
 const Product: React.FC<productProps> = ({
   id,
@@ -9,24 +12,37 @@ const Product: React.FC<productProps> = ({
   price,
   rating,
 }) => {
-  const [{ basket }, dispatch] = useStateValue()
+  //   const [{ basket }, dispatch] = useStateValue()
+
+  const setBasket = useSetRecoilState(basketState)
+  const basket = useRecoilValue(basketDetails)
 
   console.log(basket)
 
-  const addToBasket = () => {
-    // dispatch the item into the data layer
-
-    dispatch({
-      type: 'ADD_TO_BASKET',
-      item: {
-        id,
-        title,
-        image,
-        price,
-        rating,
-      },
+  //   const addToRecoil = () => {
+  //     setBasket({ isLoading: false, basket })
+  //   }
+  const addToRecoil = () => {
+    setBasket({
+      isLoading: false,
+      basket: [...basket, { id, title, image, price, rating }],
     })
   }
+
+  //   const addToBasket = () => {
+  //     // dispatch the item into the data layer
+
+  //     dispatch({
+  //       type: 'ADD_TO_BASKET',
+  //       item: {
+  //         id,
+  //         title,
+  //         image,
+  //         price,
+  //         rating,
+  //       },
+  //     })
+  //   }
   return (
     <div id={id} className="product">
       <div className="product__info">
@@ -44,7 +60,7 @@ const Product: React.FC<productProps> = ({
         </div>
       </div>
       <img src={image}></img>
-      <button onClick={addToBasket}>Add To Cart</button>
+      <button onClick={addToRecoil}>Add To Cart</button>
     </div>
   )
 }

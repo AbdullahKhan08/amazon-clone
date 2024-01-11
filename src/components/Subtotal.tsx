@@ -1,12 +1,22 @@
-import { useStateValue } from '../StateProvider'
+// import { useStateValue } from '../StateProvider'
 import '../styles/Subtotal.css'
 import CurrencyFormat from 'react-currency-format'
+import { basketDetails } from '../store/selectors/basket'
+import { useRecoilValue } from 'recoil'
+import { BasketItem } from '../store/atoms/basket'
 
 function Subtotal() {
-  const [{ basket }] = useStateValue()
+  //   const [{ basket }] = useStateValue() -> context provider
 
-  const calculateSubtotal = (basket: []) => {
-    return basket?.reduce((total: number, item: any) => total + item.price, 0)
+  const basket = useRecoilValue(basketDetails)
+
+  console.log(basket)
+
+  const calculateSubtotal = (basket: BasketItem[]) => {
+    return basket?.reduce(
+      (total: number, item: BasketItem) => total + item.price,
+      0
+    )
   }
 
   const subTotal = calculateSubtotal(basket)
@@ -14,7 +24,7 @@ function Subtotal() {
   return (
     <div className="subtotal">
       <CurrencyFormat
-        renderText={(value: number) => (
+        renderText={(value) => (
           <>
             <p>
               Subtotal ({basket?.length} items) : <strong>{value}</strong>
