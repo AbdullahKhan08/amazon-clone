@@ -4,6 +4,7 @@ import { productProps } from '../utils/types'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { basketState } from '../store/atoms/basket'
 import { basketDetails } from '../store/selectors/basket'
+import { userEmail } from '../store/selectors/user'
 
 const Product: React.FC<productProps> = ({
   id,
@@ -13,7 +14,7 @@ const Product: React.FC<productProps> = ({
   rating,
 }) => {
   //   const [{ basket }, dispatch] = useStateValue()
-
+  const email = useRecoilValue(userEmail)
   const setBasket = useSetRecoilState(basketState)
   const basket = useRecoilValue(basketDetails)
 
@@ -23,10 +24,14 @@ const Product: React.FC<productProps> = ({
   //     setBasket({ isLoading: false, basket })
   //   }
   const addToRecoil = () => {
-    setBasket({
-      isLoading: false,
-      basket: [...basket, { id, title, image, price, rating }],
-    })
+    if (!email) {
+      alert('Please sign in before adding products to cart')
+    } else {
+      setBasket({
+        isLoading: false,
+        basket: [...basket, { id, title, image, price, rating }],
+      })
+    }
   }
 
   //   const addToBasket = () => {

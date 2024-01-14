@@ -5,11 +5,14 @@ import { useNavigate } from 'react-router-dom'
 import '../styles/Login.css'
 import axios from 'axios'
 import { BASE_URL } from '../config'
+import { userState } from '../store/atoms/user'
+import { useSetRecoilState } from 'recoil'
 
 function Register() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const setUser = useSetRecoilState(userState)
 
   const navigate = useNavigate()
 
@@ -30,6 +33,11 @@ function Register() {
         alert('User created')
         const data = response.data
         localStorage.setItem('token', data.token)
+        setUser({
+          isLoading: false,
+          email: data.email,
+          name: data.name,
+        })
         setEmail('')
         setName('')
         setPassword('')

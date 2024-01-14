@@ -2,13 +2,47 @@ import { FormEvent, useState } from 'react'
 import '../styles/Login.css'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import { BASE_URL } from '../config'
+import axios from 'axios'
+import { userState } from '../store/atoms/user'
+import { useSetRecoilState } from 'recoil'
 
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
-  const signIn = (e: FormEvent) => {
+  const setUser = useSetRecoilState(userState)
+
+  const signIn = async (e: FormEvent) => {
     e.preventDefault()
+
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/login`,
+        { email: email, password: password },
+        {
+          headers: {
+            'Content-type': 'application/json',
+          },
+        }
+      )
+
+      if (response.status === 200) {
+        alert('User Logged in successfully')
+        const data = response.data
+        localStorage.setItem('token', data.token)
+        setUser({
+          isLoading: false,
+          email: data.email,
+          name: data.name,
+        })
+        setEmail('')
+        setPassword('')
+        navigate('/')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <div className="login">

@@ -51,7 +51,11 @@ router.get(
       if (!user) {
         return res.status(403).json({ message: 'User does not exist' })
       } else {
-        return res.status(200).json({ email })
+        const name = user?.name
+        console.log(name)
+        console.log(user)
+
+        return res.status(200).json({ name, email })
       }
     }
   }
@@ -76,7 +80,7 @@ router.post('/register', async (req, res) => {
           .json({ message: 'Internal server error', error: error })
       }
 
-      const newUser = new User({ email, password: hash })
+      const newUser = new User({ name, email, password: hash })
 
       try {
         await newUser.save()
@@ -85,7 +89,12 @@ router.post('/register', async (req, res) => {
         })
         return res
           .status(201)
-          .json({ message: 'User account created successfully', token })
+          .json({
+            message: 'User account created successfully',
+            token,
+            name: newUser.name,
+            email: newUser.email,
+          })
       } catch (error) {
         console.log(error)
 
@@ -98,7 +107,7 @@ router.post('/register', async (req, res) => {
     return res.status(403).json({ message: 'User already exists' })
   }
 })
-router.post('/login', userAuthentication, async (req, res) => {
+router.post('/login', async (req, res) => {
   const { email, password } = req.body
 
   if (!email || !password) {
@@ -116,9 +125,12 @@ router.post('/login', userAuthentication, async (req, res) => {
         const token = jwt.sign({ email, role: 'user' }, USER_SECRET as string, {
           expiresIn: '48h',
         })
-        return res
-          .status(200)
-          .json({ message: 'Logged in successfully', token })
+        return res.status(200).json({
+          message: 'Logged in successfully',
+          token,
+          name: existingUser.name,
+          email: existingUser.email,
+        })
       } else {
         return res.status(403).json({ msg: 'Invalid username or password' })
       }
