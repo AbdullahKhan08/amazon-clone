@@ -5,6 +5,7 @@ import { BasketItem } from '../utils/types'
 import CheckoutProduct from './CheckoutProduct'
 import Subtotal from './Subtotal'
 import { basketDetails } from '../store/selectors/basket'
+import FlipMove from 'react-flip-move'
 
 function Checkout() {
   //   const [{ basket }] = useStateValue()
@@ -20,8 +21,9 @@ function Checkout() {
 
         <div className="checkout__title">
           <h2>Your Shopping Basket</h2>
-          {basket?.map((item: BasketItem, index: number) => {
-            return (
+          <FlipMove>
+            {basket?.map((item: BasketItem, index: number) => (
+              //   return (
               <CheckoutProduct
                 key={parseInt(item.id) - index}
                 id={item.id}
@@ -30,8 +32,8 @@ function Checkout() {
                 price={item.price}
                 rating={item.rating}
               />
-            )
-          })}
+            ))}
+          </FlipMove>
         </div>
       </div>
       <div className="checkout__right">

@@ -41,6 +41,7 @@
   margin-right: 10px;
   margin-left: 10px;
   color: white;
+  cursor: pointer;
 }
 
 .header__optionLineOne {
