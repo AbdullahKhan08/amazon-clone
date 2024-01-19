@@ -3,10 +3,11 @@ import '../styles/Subtotal.css'
 import { basketDetails } from '../store/selectors/basket'
 import { useRecoilValue } from 'recoil'
 import { BasketItem } from '../store/atoms/basket'
+import { useNavigate } from 'react-router-dom'
 
 function Subtotal() {
   //   const [{ basket }] = useStateValue() -> context provider
-
+  const navigate = useNavigate()
   const basket = useRecoilValue(basketDetails)
 
   const calculateSubtotal = (basket: BasketItem[]) => {
@@ -37,7 +38,7 @@ function Subtotal() {
         thousandSeparator={true}
       />
 
-      <button>Proceed To Checkout</button>
+      <button onClick={() => navigate('/payment')}>Proceed To Checkout</button>
     </div>
   )
 }

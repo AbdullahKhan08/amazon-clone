@@ -5,6 +5,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { basketState } from '../store/atoms/basket'
 import { basketDetails } from '../store/selectors/basket'
 import { userEmail } from '../store/selectors/user'
+import { motion } from 'framer-motion'
 
 const Product: React.FC<productProps> = ({
   id,
@@ -13,6 +14,12 @@ const Product: React.FC<productProps> = ({
   price,
   rating,
 }) => {
+  const cardVariants = {
+    hover: {
+      scale: 1.1,
+      transition: { duration: 0.3 },
+    },
+  }
   //   const [{ basket }, dispatch] = useStateValue()
   const email = useRecoilValue(userEmail)
   const setBasket = useSetRecoilState(basketState)
@@ -49,7 +56,20 @@ const Product: React.FC<productProps> = ({
   //     })
   //   }
   return (
-    <div id={id} className="product">
+    <motion.div
+      id={id}
+      variants={cardVariants}
+      whileHover="hover"
+      className="product card"
+      //   style={{
+      //     backgroundColor: '#fff',
+      //     borderRadius: '8px',
+      //     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+      //     cursor: 'pointer',
+      //     overflow: 'hidden',
+      //     position: 'relative',
+      //   }}
+    >
       <div className="product__info">
         <p>{title}</p>
         <p className="product__price">
@@ -66,7 +86,7 @@ const Product: React.FC<productProps> = ({
       </div>
       <img src={image}></img>
       <button onClick={addToRecoil}>Add To Cart</button>
-    </div>
+    </motion.div>
   )
 }
 

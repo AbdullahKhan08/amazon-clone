@@ -23,7 +23,6 @@ function Checkout() {
           <h2>Your Shopping Basket</h2>
           <FlipMove>
             {basket?.map((item: BasketItem, index: number) => (
-              //   return (
               <CheckoutProduct
                 key={parseInt(item.id) - index}
                 id={item.id}

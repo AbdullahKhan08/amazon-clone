@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { userState } from './store/atoms/user'
 import { BASE_URL } from './config'
 import axios from 'axios'
+import Payment from './components/Payment'
 
 function App() {
   return (
@@ -33,6 +34,15 @@ function App() {
                 <>
                   <Header />
                   <Checkout />
+                </>
+              }
+            ></Route>
+            <Route
+              path="/payment"
+              element={
+                <>
+                  <Header />
+                  <Payment />
                 </>
               }
             ></Route>

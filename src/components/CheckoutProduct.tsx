@@ -6,10 +6,7 @@ import { basketState } from '../store/atoms/basket'
 import React, { forwardRef } from 'react'
 
 const CheckoutProduct: React.FC<productProps> = forwardRef(
-  (
-    { id, title, image, price, rating },
-    ref: React.ForwardedRef<HTMLDivElement>
-  ) => {
+  ({ id, title, image, price, rating }, ref: React.ForwardedRef<any>) => {
     const [basketDetails, setBasketDetails] = useRecoilState(basketState)
     //   const [{ basket }, dispatch] = useStateValue()
 
