@@ -20,7 +20,7 @@ function Register() {
     e.preventDefault()
     try {
       const response = await axios.post(
-        `${BASE_URL}/register`,
+        `${BASE_URL}/user/register`,
         { name: name, email: email, password: password },
         {
           headers: {

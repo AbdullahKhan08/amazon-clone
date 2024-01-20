@@ -10,6 +10,13 @@ import { userState } from './store/atoms/user'
 import { BASE_URL } from './config'
 import axios from 'axios'
 import Payment from './components/Payment'
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
+import Orders from './components/Orders'
+
+const promise = loadStripe(
+  'pk_test_51OaGKUSApjMjVEEihGkBORhP0ToOYIcNBLIYiXfOJiiEckxgkEbgfSlZJ7kvZ6g5pPC08v4OJTcNq2vQYN1qkvXx00IspCykuT'
+)
 
 function App() {
   return (
@@ -42,7 +49,18 @@ function App() {
               element={
                 <>
                   <Header />
-                  <Payment />
+                  <Elements stripe={promise}>
+                    <Payment />
+                  </Elements>
+                </>
+              }
+            ></Route>
+            <Route
+              path="/orders"
+              element={
+                <>
+                  <Header />
+                  <Orders />
                 </>
               }
             ></Route>
@@ -59,7 +77,7 @@ function App() {
 
     const init = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/me`, {
+        const response = await axios.get(`${BASE_URL}/user/me`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token'),
           },

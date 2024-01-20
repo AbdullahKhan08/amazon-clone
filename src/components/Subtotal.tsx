@@ -51,7 +51,7 @@ interface CurrencyFormatProps {
   thousandSeparator: boolean
 }
 
-const DisplayFormat: React.FC<CurrencyFormatProps> = ({
+export const DisplayFormat: React.FC<CurrencyFormatProps> = ({
   renderText,
   decimalScale,
   value,

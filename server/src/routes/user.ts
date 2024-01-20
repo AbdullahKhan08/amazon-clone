@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { User } from '../models/User'
 import bcrypt from 'bcrypt'
-const router = express.Router()
+const userRouter = express.Router()
 import dotenv from 'dotenv'
 dotenv.config()
 const USER_SECRET = process.env.USER_SECRET
@@ -39,7 +39,7 @@ const userAuthentication = async (
   }
 }
 
-router.get(
+userRouter.get(
   '/me',
   userAuthentication,
   async (req: AuthenticatedRequest, res) => {
@@ -61,7 +61,7 @@ router.get(
   }
 )
 
-router.post('/register', async (req, res) => {
+userRouter.post('/register', async (req, res) => {
   const { name, email, password } = req.body
 
   if (!name || !email || !password) {
@@ -87,14 +87,12 @@ router.post('/register', async (req, res) => {
         const token = jwt.sign({ email, role: 'user' }, USER_SECRET as string, {
           expiresIn: '48h',
         })
-        return res
-          .status(201)
-          .json({
-            message: 'User account created successfully',
-            token,
-            name: newUser.name,
-            email: newUser.email,
-          })
+        return res.status(201).json({
+          message: 'User account created successfully',
+          token,
+          name: newUser.name,
+          email: newUser.email,
+        })
       } catch (error) {
         console.log(error)
 
@@ -107,7 +105,7 @@ router.post('/register', async (req, res) => {
     return res.status(403).json({ message: 'User already exists' })
   }
 })
-router.post('/login', async (req, res) => {
+userRouter.post('/login', async (req, res) => {
   const { email, password } = req.body
 
   if (!email || !password) {
@@ -140,4 +138,4 @@ router.post('/login', async (req, res) => {
   }
 })
 
-export default router
+export default userRouter

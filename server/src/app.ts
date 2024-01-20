@@ -3,8 +3,9 @@ const app = express()
 import cors from 'cors'
 import dotenv from 'dotenv'
 import { connectDb } from './db/connect'
-import router from './routes/user'
+import userRouter from './routes/user'
 dotenv.config()
+import paymentRouter from './routes/payment'
 
 const PORT = process.env.PORT || 8080
 
@@ -24,7 +25,8 @@ app.use(
   })
 )
 app.use(express.json())
-app.use('/api/v1/user', router)
+app.use('/api/v1/user', userRouter)
+app.use('/api/v1', paymentRouter)
 
 const start = async () => {
   try {

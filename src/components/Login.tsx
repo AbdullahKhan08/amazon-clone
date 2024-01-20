@@ -18,7 +18,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/login`,
+        `${BASE_URL}/user/login`,
         { email: email, password: password },
         {
           headers: {
