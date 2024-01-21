@@ -36,6 +36,29 @@ function Payment() {
     )
   }
 
+  const addOrders = async () => {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/orders/create`,
+        {
+          basket: basket.basket,
+          totalAmount: calculateSubtotal(basket.basket),
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+        }
+      )
+
+      if (response.status === 201) {
+        console.log('Orders added successfully to databse')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     const getClientSecret = async () => {
       const response = await axios.post(
@@ -78,11 +101,14 @@ function Payment() {
     )
 
     if (paymentIntent?.status === 'succeeded') {
+      addOrders()
       setSucceeded(true)
       setError(null)
       setProcessing(false)
-      setBasket({ isLoading: false, basket: [] })
-      navigate('/orders')
+      setTimeout(() => {
+        navigate('/orders')
+        setBasket({ isLoading: false, basket: [] })
+      }, 1500)
     }
 
     console.log(paymentIntent)
@@ -141,6 +167,7 @@ function Payment() {
                       image={item.image}
                       price={item.price}
                       rating={item.rating}
+                      showButton={true}
                     />
                   </motion.div>
                 ))}

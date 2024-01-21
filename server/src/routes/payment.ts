@@ -6,7 +6,7 @@ dotenv.config()
 import Stripe from 'stripe'
 const stripe = new Stripe(process.env.STRIPE_SECRET as string)
 
-paymentRouter.post('/payments/create', async (req: Request, res: Response) => {
+paymentRouter.post('/create', async (req: Request, res: Response) => {
   const total = req.query.total as string
   console.log(total)
   console.log('type', typeof total)
@@ -39,11 +39,11 @@ paymentRouter.post('/payments/create', async (req: Request, res: Response) => {
       currency: 'usd',
       payment_method_types: ['card'],
     })
-    console.log(paymentIntent.payment_method)
+    // console.log(paymentIntent.payment_method)
 
     res.status(201).json({ clientSecret: paymentIntent.client_secret })
   } catch (error) {
-    console.log(error)
+    // console.log(error)
   }
 
   console.log('Payment request recieved !!! for amount-> ', total)

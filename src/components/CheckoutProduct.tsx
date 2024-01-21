@@ -10,6 +10,7 @@ const CheckoutProduct: React.FC<productProps> = ({
   image,
   price,
   rating,
+  showButton,
 }) => {
   const [basketDetails, setBasketDetails] = useRecoilState(basketState)
   //   const [{ basket }, dispatch] = useStateValue()
@@ -58,9 +59,11 @@ const CheckoutProduct: React.FC<productProps> = ({
               <p key={i}>🌟</p>
             ))}
         </div>
-        <button onClick={() => removeFromBasketRecoil(id)}>
-          Remove from Basket
-        </button>
+        {showButton && (
+          <button onClick={() => removeFromBasketRecoil(id)}>
+            Remove from Basket
+          </button>
+        )}
       </div>
     </div>
   )

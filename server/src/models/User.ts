@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema(
     name: { type: String },
     email: { type: String },
     password: { type: String },
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
   },
   { timestamps: true }
 )

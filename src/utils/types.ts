@@ -4,6 +4,7 @@ export interface productProps {
   image: string
   price: number
   rating: number
+  showButton?: boolean
 }
 
 export interface BasketItem {

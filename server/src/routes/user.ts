@@ -8,16 +8,16 @@ import dotenv from 'dotenv'
 dotenv.config()
 const USER_SECRET = process.env.USER_SECRET
 
-interface ExtendedJwtPayload extends JwtPayload {
+export interface ExtendedJwtPayload extends JwtPayload {
   email?: string | undefined
   role?: string | undefined
 }
 
-interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest extends Request {
   user?: string | ExtendedJwtPayload | undefined
 }
 
-const userAuthentication = async (
+export const userAuthentication = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction

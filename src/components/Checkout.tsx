@@ -43,6 +43,7 @@ function Checkout() {
                     image={item.image}
                     price={item.price}
                     rating={item.rating}
+                    showButton={true}
                   />
                 </motion.div>
               ))}

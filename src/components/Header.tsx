@@ -2,13 +2,14 @@ import '../styles/Header.css'
 import logo from '../assets/logo2.png'
 import SearchIcon from '@mui/icons-material/Search'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 // import { useStateValue } from '../StateProvider'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { basketDetails } from '../store/selectors/basket'
 import { userState } from '../store/atoms/user'
 // import { isUserLoading, userEmail, userName } from '../store/selectors/user'
 function Header() {
+  const navigate = useNavigate()
   const [user, setUser] = useRecoilState(userState)
   //   const [{ basket }] = useStateValue() -> context provider
   const basket = useRecoilValue(basketDetails) // -> Recoil
@@ -44,7 +45,7 @@ function Header() {
             <span className="header__optionLineTwo">Logout</span>
           </div>
 
-          <div className="header__option">
+          <div className="header__option" onClick={() => navigate('/orders')}>
             <span className="header__optionLineOne">Returns</span>
             <span className="header__optionLineTwo">& Orders</span>
           </div>
